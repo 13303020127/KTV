@@ -19,7 +19,7 @@
     "gen:version": "node scripts/generate-version.js",
     "postbuild": "echo 'Build completed - sitemap generation disabled' && node -e \"const fs = require('fs'); const path = require('path'); const cacheDir = path.join(process.cwd(), '.next/cache'); if (fs.existsSync(cacheDir)) { console.log('正在清理缓存目录:', cacheDir); fs.rmSync(cacheDir, { recursive: true, force: true }); console.log('缓存目录清理完成'); }\"", 
     "prepare": "node -e \"try { require('husky').install(); } catch(e) { console.log('Husky not found, skipping install'); }\"",
-    "pages:build": "npm run build && npx @cloudflare/next-on-pages"
+    "pages:build": "npm run build && npx @cloudflare/next-on-pages",
     "build:ci": "node scripts/build-ci.js"
   },
   "dependencies": {
