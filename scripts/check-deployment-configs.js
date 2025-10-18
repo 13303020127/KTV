@@ -159,9 +159,9 @@ function checkEnvExamples() {
     if (fileExists(envFile)) {
       const content = fs.readFileSync(envFile, 'utf8');
       const hasStorageType = content.includes('NEXT_PUBLIC_STORAGE_TYPE');
-      const hasAuthConfig = content.includes('NEXTAUTH_SECRET');
+      // 删除了对NEXTAUTH_SECRET的检查，因为该环境变量已不再需要
       
-      if (hasStorageType && hasAuthConfig) {
+      if (hasStorageType) {
         logCheck(`环境变量文件 ${envFile}`, 'PASS', '包含必要配置');
       } else {
         logCheck(`环境变量文件 ${envFile}`, 'WARN', '可能缺少部分配置');

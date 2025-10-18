@@ -52,8 +52,7 @@
 | NEXT_PUBLIC_STORAGE_TYPE | d1 | 所有环境 |
 | NEXT_PUBLIC_SITE_NAME | KatelyaTV | 所有环境 |
 | NEXT_PUBLIC_SITE_DESCRIPTION | 高性能影视播放平台 | 所有环境 |
-| NEXTAUTH_SECRET | your_nextauth_secret_here_32_chars_min | 生产环境 |
-| NEXTAUTH_URL | https://your-domain.pages.dev | 生产环境 |
+
 | NODE_ENV | production | 生产环境 |
 
 ## 步骤 5: 配置 wrangler.toml
@@ -79,8 +78,7 @@ NEXT_PUBLIC_STORAGE_TYPE = "d1"
 NEXT_PUBLIC_SITE_NAME = "KatelyaTV"
 NEXT_PUBLIC_SITE_DESCRIPTION = "高性能影视播放平台"
 
-# NextAuth 配置
-NEXTAUTH_URL = "https://your-domain.pages.dev"
+# 站点配置
 
 # 图片代理配置
 IMAGE_PROXY_ENABLED = "true"

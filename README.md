@@ -41,14 +41,49 @@ KatelyaTV 是一个现代化的影视播放平台，基于 Next.js 开发，支�
 
 ### 环境变量配置
 
-在 Cloudflare Pages 设置中配置以下环境变量：
+在 Cloudflare Pages 设置中必须配置以下环境变量：
+
+#### 必须的环境变量
 
 ```
-NEXT_PUBLIC_STORAGE_TYPE=d1
+# 数据库配置
+NEXT_PUBLIC_STORAGE_TYPE=d1  # 存储类型：使用 D1
+
+# 站点访问密码（必须配置，用于访问控制）
+
+# 站点访问密码（必须配置，用于访问控制）
+PASSWORD=katelyatv2024  # 请修改为强密码
+
+# 站点基本信息
 NEXT_PUBLIC_SITE_NAME=KatelyaTV
 NEXT_PUBLIC_SITE_DESCRIPTION=高性能影视播放平台
-NEXTAUTH_SECRET=your_nextauth_secret_here_32_chars_min
-NEXTAUTH_URL=https://your-domain.pages.dev
+```
+
+#### 可选的环境变量
+
+```
+# Douban API 配置（可选）
+# DOUBAN_API_KEY=your_douban_api_key
+
+# 图片代理配置
+IMAGE_PROXY_ENABLED=true
+
+# 缓存配置
+CACHE_TTL=3600  # 缓存时间，单位秒
+
+# 安全配置
+CORS_ORIGIN=*  # CORS 允许的源
+RATE_LIMIT_MAX=100  # 速率限制最大值
+RATE_LIMIT_WINDOW=60000  # 速率限制窗口，单位毫秒
+
+# 监控配置
+HEALTH_CHECK_ENABLED=true
+HEALTH_CHECK_INTERVAL=30  # 健康检查间隔，单位秒
+LOG_LEVEL=info  # 日志级别：error, warn, info, debug
+LOG_FORMAT=json  # 日志格式
+
+# 生产环境标识
+NODE_ENV=production
 ```
 
 ### D1 数据库配置
@@ -70,6 +105,27 @@ database_id = "your-actual-database-id"
 npm install
 ```
 
+### 环境变量配置
+
+在本地开发时，创建一个 `.env` 文件，配置以下环境变量：
+
+```
+# 数据库配置（本地开发建议使用 localStorage）
+NEXT_PUBLIC_STORAGE_TYPE=localstorage
+
+# 站点访问密码（本地开发也建议配置）
+
+# 站点访问密码（本地开发也建议配置）
+PASSWORD=dev_password_123456
+
+# 站点基本信息
+NEXT_PUBLIC_SITE_NAME=KatelyaTV-Dev
+NEXT_PUBLIC_SITE_DESCRIPTION=高性能影视播放平台（开发环境）
+
+# 开发环境标识
+NODE_ENV=development
+```
+
 ### 启动开发服务器
 
 ```bash
@@ -82,12 +138,21 @@ npm run dev
 npm run build
 ```
 
-## 注意事项
+## 重要注意事项
 
+### 环境变量安全
+1. `PASSWORD` 是敏感信息，请不要硬编码在代码中或提交到版本控制系统
+2. 生产环境中务必修改默认密码 `katelyatv2024`，使用强密码
+
+### 部署注意事项
 1. 确保所有 API 路由都配置了 Edge Runtime
-2. 部署前验证 wrangler.toml 配置正确
-3. 确保环境变量设置完整
+2. 部署前验证 wrangler.toml 配置正确，特别是 D1 数据库配置
+3. 确保所有必须的环境变量都已正确设置
 4. 定期更新依赖以确保安全性
+
+### 性能优化
+1. 生产环境中建议启用图片代理功能以提高加载速度
+2. 根据实际使用情况调整缓存时间和速率限制参数
 
 ## 许可证
 

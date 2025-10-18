@@ -73,7 +73,7 @@ async function testEnvironmentConfig() {
   
   // 检查必需的环境变量
   const requiredVars = ['NEXT_PUBLIC_STORAGE_TYPE'];
-  const optionalVars = ['KVROCKS_PASSWORD', 'NEXTAUTH_SECRET'];
+  const optionalVars = ['KVROCKS_PASSWORD'];
   
   for (const varName of requiredVars) {
     if (process.env[varName]) {
