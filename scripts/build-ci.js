@@ -66,6 +66,20 @@ runCommand('npm run gen:manifest', '生成清单文件');
 const buildResult = runCommand('npm run build', '构建应用');
 
 if (buildResult.success) {
+  // 清理大型缓存文件，避免超过Cloudflare Pages 25MB限制
+  try {
+    console.log('\n开始清理大型缓存文件...');
+    const cacheDir = path.join(__dirname, '../.next/cache');
+    if (fs.existsSync(cacheDir)) {
+      console.log(`正在删除缓存目录: ${cacheDir}`);
+      fs.rmSync(cacheDir, { recursive: true, force: true });
+      console.log('大型缓存文件已清理完成');
+    }
+  } catch (error) {
+    console.error('清理缓存文件时出错:', error.message);
+    // 即使清理失败，构建也是成功的，继续执行
+  }
+  
   console.log('\n✅ Cloudflare Pages构建成功完成!');
   process.exit(0);
 } else {
