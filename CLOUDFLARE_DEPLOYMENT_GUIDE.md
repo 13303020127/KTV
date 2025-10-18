@@ -52,6 +52,7 @@
 | NEXT_PUBLIC_STORAGE_TYPE | d1 | 所有环境 |
 | NEXT_PUBLIC_SITE_NAME | KatelyaTV | 所有环境 |
 | NEXT_PUBLIC_SITE_DESCRIPTION | 高性能影视播放平台 | 所有环境 |
+| PASSWORD | katelyatv2024 | 所有环境 |（请修改为强密码）
 
 | NODE_ENV | production | 生产环境 |
 

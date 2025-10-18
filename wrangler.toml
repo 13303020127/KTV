@@ -1,2 +1,11 @@
 name = "katelyatv"
+compatibility_date = "2025-09-06"
+compatibility_flags = ["nodejs_compat"]
+
+# Cloudflare Pages 配置
 pages_build_output_dir = ".opennext/output/static"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "katelyatv"
+database_id = "your-actual-database-id"
