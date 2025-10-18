@@ -40,7 +40,7 @@
 
 - **项目名称**: 输入你的项目名称
 - **构建命令**: `npm install --frozen-lockfile && npm run pages:build`
-- **构建输出目录**: `.next`
+- **构建输出目录**: `.opennext/output/static`
 - **根目录**: `/`
 
 ### 环境变量设置
@@ -65,7 +65,7 @@ compatibility_date = "2025-09-06"
 compatibility_flags = ["nodejs_compat"]
 
 # Cloudflare Pages 配置
-pages_build_output_dir = ".next"
+pages_build_output_dir = ".opennext/output/static"
 
 [[d1_databases]]
 binding = "DB"
@@ -121,13 +121,26 @@ export const runtime = 'edge';
 
 Cloudflare Pages 对单个文件大小有限制（25 MiB）。如果遇到大型缓存文件问题：
 
-1. 项目已配置自动清理 `.next/cache` 目录
+1. 项目已配置自动清理相关缓存目录
 2. 如果仍有问题，可以尝试手动清理更多缓存目录
 
 ### Next.js 适配器问题
 
-1. 确保使用正确的适配器命令格式
-2. 检查 package.json 中是否安装了 @cloudflare/next-on-pages 依赖
+**重要：** 项目已迁移到 OpenNext 适配器（Cloudflare 官方推荐），替代了过时的 `@cloudflare/next-on-pages`。
+
+1. 确保在 `package.json` 中正确配置了 `pages:build` 脚本：
+   ```json
+   "pages:build": "npm run build && npx opennext@latest build"
+   ```
+
+2. 确保已安装正确的依赖：
+   ```json
+   "opennext": "^3.0.0"
+   ```
+
+### Node.js 内置模块兼容性问题
+
+Cloudflare Workers 运行时不支持所有 Node.js 内置模块（如 `async_hooks`）。使用 OpenNext 适配器可以更好地处理这些兼容性问题，确保 Next.js 应用在 Cloudflare Pages 上正常运行。
 
 ## 后续维护
 
