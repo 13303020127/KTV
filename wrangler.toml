@@ -1,51 +1,10 @@
 name = "katelyatv"
-compatibility_date = "2025-09-06"
-compatibility_flags = ["nodejs_compat"]
+type = "pages"
 
-# Cloudflare Pages 配置
-pages_build_output_dir = ".vercel/output/static"
+[build]
+command = "npm install && npm run build"
+publish = ".next"
 
-[env.production]
-name = "katelyatv"
-
-[env.production.vars]
-# 存储类型配置
-NEXT_PUBLIC_STORAGE_TYPE = "d1"
-
-# 站点配置
-NEXT_PUBLIC_SITE_NAME = "KTV"
-NEXT_PUBLIC_SITE_DESCRIPTION = "高性能影视播放平台"
-
-# 站点配置
-
-# 站点访问密码（必须）
-PASSWORD = "katelyatv2024"
-
-# 图片代理配置
-IMAGE_PROXY_ENABLED = "true"
-
-# 缓存配置
-CACHE_TTL = "3600"
-
-# CORS 配置
-CORS_ORIGIN = "*"
-
-# Rate Limiting 配置
-RATE_LIMIT_MAX = "100"
-RATE_LIMIT_WINDOW = "60000"
-
-# 健康检查配置
-HEALTH_CHECK_ENABLED = "true"
-HEALTH_CHECK_INTERVAL = "30"
-
-# 日志配置
-LOG_LEVEL = "info"
-LOG_FORMAT = "json"
-
-# 生产环境标识
-NODE_ENV = "production"
-
-[[env.production.d1_databases]]
-binding = "DB"
-database_name = "ktv"
-database_id = "30afea4f-0fa5-4dd5-aaf4-1ca71f2241c7"
+[build.environment]
+NODE_VERSION = "18"
+NPM_VERSION = "9"
