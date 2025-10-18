@@ -1,12 +1,1 @@
-name = "katelyatv"
 pages_build_output_dir = ".next"
-
-# 忽略大型缓存文件，避免超过25MB限制
-[[rules]]
-globs = ["cache/**"]
-type = "exclude"
-
-# Cloudflare Pages 配置环境变量
-[env.production.vars]
-NODE_VERSION = "18"
-NPM_VERSION = "9"
