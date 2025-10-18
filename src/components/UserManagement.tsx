@@ -31,8 +31,8 @@ export default function UserManagement() {
     }
   }, []);
   
-  // 从API数据中提取用户列表
-  const users = usersData?.users || [];
+  // 安全地从API数据中提取用户列表，添加类型检查
+  const users = usersData && typeof usersData === 'object' && 'users' in usersData && Array.isArray(usersData.users) ? usersData.users : [];
 
   const handleUpdateUserSettings = async (username: string, action: string, settings?: any) => {
     if (!currentUser || updateUserSettings.isPending) return;
@@ -45,7 +45,7 @@ export default function UserManagement() {
         currentUserName: currentUser
       });
       
-      alert(result.message || '操作成功');
+      alert(result && typeof result === 'object' && 'message' in result ? result.message : '操作成功');
     } catch (err: any) {
       const errorMsg = err.message || '未知错误';
       alert(`操作失败: ${errorMsg}`);
@@ -65,7 +65,7 @@ export default function UserManagement() {
     }
   };
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="flex items-center justify-center h-40">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-500"></div>
@@ -76,7 +76,7 @@ export default function UserManagement() {
   if (error) {
     return (
       <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md p-4">
-        <div className="text-red-600 dark:text-red-400">{error}</div>
+        <div className="text-red-600 dark:text-red-400">{typeof error === 'string' ? error : error instanceof Error ? error.message : '未知错误'}</div>
         <button 
           onClick={() => refetch()}
           className="mt-2 text-sm text-red-600 dark:text-red-400 underline hover:no-underline"

@@ -71,7 +71,7 @@ function SearchPageClient() {
         `/api/search?q=${encodeURIComponent(query)}&t=${Date.now()}`,
         {
           headers: {
-            Authorization: authInfo ? `Bearer ${authInfo.token}` : '',
+            Authorization: authInfo && 'token' in authInfo ? `Bearer ${authInfo.token}` : '',
           },
           signal: controller.signal,
         }
@@ -89,7 +89,7 @@ function SearchPageClient() {
         console.error('搜索请求失败，状态码:', response.status);
       }
     } catch (error) {
-      if (error.name === 'AbortError') {
+      if (error instanceof Error && error.name === 'AbortError') {
         console.error('搜索请求超时');
       } else {
         console.error('搜索失败:', error);

@@ -197,7 +197,8 @@ class LRUCacheManager {
   clear(): void {
     try {
       // 删除所有缓存项
-      for (const key of this.cacheItems.keys()) {
+      const keys = Array.from(this.cacheItems.keys());
+      for (const key of keys) {
         localStorage.removeItem(key);
       }
 

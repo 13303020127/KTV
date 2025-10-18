@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { Moon, Sun, MonitorSmartphone, Grid, ListFilter, Bell, BellOff, BellRinging } from 'lucide-react';
+import { Moon, Sun, MonitorSmartphone, Grid, ListFilter, Bell, BellOff } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { apiService } from '@/lib/api-service';
 
@@ -36,12 +36,15 @@ export default function PersonalizationSettings({
     const loadUserPreferences = async () => {
       try {
         const settingsData = await apiService.getUserSettings(userName);
-        // 假设用户设置中包含preferences字段
-        if (settingsData.data?.preferences) {
-          setPreferences({
-            ...DEFAULT_PREFERENCES,
-            ...settingsData.data.preferences,
-          });
+        // 安全地访问preferences字段，添加类型检查
+        if (settingsData.data && typeof settingsData.data === 'object' && 'preferences' in settingsData.data) {
+          const userPrefs = settingsData.data.preferences;
+          if (userPrefs && typeof userPrefs === 'object') {
+            setPreferences({
+              ...DEFAULT_PREFERENCES,
+              ...userPrefs,
+            });
+          }
         }
       } catch (err) {
         console.error('加载用户偏好失败:', err);
@@ -212,7 +215,7 @@ export default function PersonalizationSettings({
               transition-all duration-200 min-h-[120px] w-full`}
             aria-pressed={preferences.notificationFrequency === 'important'}
           >
-            <BellRinging className="w-8 h-8 text-amber-500 mb-3" />
+            <Bell className="w-8 h-8 text-amber-500 mb-3" />
             <span className="font-medium text-gray-900 dark:text-white">重要通知</span>
             <span className="text-xs text-gray-500 dark:text-gray-400 mt-1">仅接收重要系统通知</span>
           </button>

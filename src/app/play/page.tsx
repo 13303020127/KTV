@@ -1139,7 +1139,7 @@ function PlayPageClient() {
               video.hls.destroy();
             }
             // 根据设备性能和网络状况动态调整缓冲参数
-            const isLowEndDevice = navigator.deviceMemory && navigator.deviceMemory < 4;
+            const isLowEndDevice = (navigator as any).deviceMemory && (navigator as any).deviceMemory < 4;
             const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
             const adaptiveMaxBufferLength = isLowEndDevice || isMobileDevice ? 20 : 30;
             const adaptiveBackBufferLength = isLowEndDevice ? 15 : 30;
@@ -1149,11 +1149,7 @@ function PlayPageClient() {
               enableWorker: true, // WebWorker 解码，降低主线程压力
               lowLatencyMode: true, // 开启低延迟 LL-HLS
               
-              // 智能码率自适应配置
-              defaultBandwidthEstimate: 2000000, // 默认带宽估计（2Mbps）
-              bandwidthDowngradeThreshold: 0.8, // 带宽降低阈值
-              bandwidthUpgradeThreshold: 0.9,   // 带宽提升阈值
-  
+              // 智能码率自适应配置 - 已移除不支持的属性
               /* 缓冲/内存相关 - 动态调整参数 */
               maxBufferLength: adaptiveMaxBufferLength, // 根据设备性能动态调整前向缓冲
               backBufferLength: adaptiveBackBufferLength, // 根据设备性能动态调整后向缓冲

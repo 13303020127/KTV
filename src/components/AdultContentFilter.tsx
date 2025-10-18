@@ -1,4 +1,5 @@
 'use client';
+import React from 'react';
 
 import { Shield, ShieldOff } from 'lucide-react';
 import { useState } from 'react';
@@ -24,9 +25,12 @@ const AdultContentFilter: React.FC<AdultContentFilterProps> = ({
 
   // 当数据变化时更新本地状态
   React.useEffect(() => {
-    if (userSettingsData) {
-      setIsEnabled(userSettingsData.settings.filter_adult_content);
-      setIsOwner(userSettingsData.isOwner || false);
+    if (typeof userSettingsData === 'object' && userSettingsData !== null) {
+      const settings = (userSettingsData as any).settings;
+      if (settings && typeof settings.filter_adult_content === 'boolean') {
+        setIsEnabled(settings.filter_adult_content);
+      }
+      setIsOwner(typeof (userSettingsData as any).isOwner === 'boolean' ? (userSettingsData as any).isOwner : false);
     }
   }, [userSettingsData]);
   
@@ -127,7 +131,7 @@ const AdultContentFilter: React.FC<AdultContentFilterProps> = ({
 
       {error && (
         <div className="mt-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md">
-          <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
+          <p className="text-sm text-red-600 dark:text-red-400">{typeof error === 'string' ? error : error instanceof Error ? error.message : '未知错误'}</p>
         </div>
       )}
 

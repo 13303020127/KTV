@@ -444,7 +444,6 @@ function HomeClient() {
                     rate={movie.rate}
                     year={movie.year}
                     type='movie'
-                    className='transform transition-all duration-300 hover:scale-[1.02] hover:shadow-lg'
                   />
                         </div>
                       ))}
@@ -496,7 +495,6 @@ function HomeClient() {
                     douban_id={show.id}
                     rate={show.rate}
                     year={show.year}
-                    className='transform transition-all duration-300 hover:scale-[1.02] hover:shadow-lg'
                   />
                         </div>
                       ))}
