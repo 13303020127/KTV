@@ -39,8 +39,8 @@
 ### 构建配置
 
 - **项目名称**: 输入你的项目名称
-- **构建命令**: `npm install --frozen-lockfile && npm run build`
-- **构建输出目录**: `.vercel/output/static`
+- **构建命令**: `npm install --frozen-lockfile && npm run pages:build`
+- **构建输出目录**: `.next`
 - **根目录**: `/`
 
 ### 环境变量设置
@@ -57,7 +57,7 @@
 
 ## 步骤 5: 配置 wrangler.toml
 
-确保你的 wrangler.toml 文件包含以下配置：
+确保你的 wrangler.toml 文件包含以下基本配置：
 
 ```toml
 name = "katelyatv"
@@ -65,46 +65,9 @@ compatibility_date = "2025-09-06"
 compatibility_flags = ["nodejs_compat"]
 
 # Cloudflare Pages 配置
-pages_build_output_dir = ".vercel/output/static"
+pages_build_output_dir = ".next"
 
-[env.production]
-name = "katelyatv"
-
-[env.production.vars]
-# 存储类型配置
-NEXT_PUBLIC_STORAGE_TYPE = "d1"
-
-# 站点配置
-NEXT_PUBLIC_SITE_NAME = "KatelyaTV"
-NEXT_PUBLIC_SITE_DESCRIPTION = "高性能影视播放平台"
-
-# 站点配置
-
-# 图片代理配置
-IMAGE_PROXY_ENABLED = "true"
-
-# 缓存配置
-CACHE_TTL = "3600"
-
-# CORS 配置
-CORS_ORIGIN = "*"
-
-# Rate Limiting 配置
-RATE_LIMIT_MAX = "100"
-RATE_LIMIT_WINDOW = "60000"
-
-# 健康检查配置
-HEALTH_CHECK_ENABLED = "true"
-HEALTH_CHECK_INTERVAL = "30"
-
-# 日志配置
-LOG_LEVEL = "info"
-LOG_FORMAT = "json"
-
-# 生产环境标识
-NODE_ENV = "production"
-
-[[env.production.d1_databases]]
+[[d1_databases]]
 binding = "DB"
 database_name = "katelyatv"
 database_id = "your-actual-database-id"
@@ -112,11 +75,16 @@ database_id = "your-actual-database-id"
 
 请将 `your-actual-database-id` 替换为你在步骤 2 中创建的数据库 ID。
 
+### 环境变量配置说明
+
+所有环境变量建议在 Cloudflare Pages 控制台的环境变量设置中配置，而不是在 wrangler.toml 中硬编码。
+
 ## 步骤 6: 部署项目
 
 1. 点击 "保存并部署"
 2. Cloudflare Pages 将开始构建和部署你的项目
-3. 部署完成后，你可以在 "自定义域" 选项中设置你的自定义域名
+3. 部署过程中会自动运行 `pages:build` 脚本，该脚本包含了 Next.js 构建和 Cloudflare 适配器处理
+4. 部署完成后，你可以在 "自定义域" 选项中设置你的自定义域名
 
 ## 步骤 7: 验证部署
 
@@ -132,6 +100,7 @@ database_id = "your-actual-database-id"
 1. 检查构建日志，查找具体错误信息
 2. 确保所有环境变量设置正确
 3. 验证 D1 数据库 ID 是否正确配置
+4. 确认 package.json 中的 pages:build 脚本配置正确: `npm run build && npx @cloudflare/next-on-pages`
 
 ### API 路由错误
 
@@ -147,6 +116,18 @@ export const runtime = 'edge';
 1. 确认 D1 数据库已正确创建
 2. 验证数据库 ID 在 wrangler.toml 中配置正确
 3. 检查数据库初始化脚本是否执行成功
+
+### 缓存文件大小限制问题
+
+Cloudflare Pages 对单个文件大小有限制（25 MiB）。如果遇到大型缓存文件问题：
+
+1. 项目已配置自动清理 `.next/cache` 目录
+2. 如果仍有问题，可以尝试手动清理更多缓存目录
+
+### Next.js 适配器问题
+
+1. 确保使用正确的适配器命令格式
+2. 检查 package.json 中是否安装了 @cloudflare/next-on-pages 依赖
 
 ## 后续维护
 
