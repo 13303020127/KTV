@@ -1,11 +1,7 @@
 name = "katelyatv"
-type = "pages"
 pages_build_output_dir = ".next"
 
-[build]
-command = "npm run build:ci"
-publish = ".next"
-
-[build.environment]
+# Cloudflare Pages 配置环境变量
+[env.production.vars]
 NODE_VERSION = "18"
 NPM_VERSION = "9"
