@@ -20,7 +20,7 @@
     "postbuild": "echo 'Build completed - sitemap generation disabled'",
     "prepare": "node -e \"try { require('husky').install(); } catch(e) { console.log('Husky not found, skipping install'); }\"",
     "pages:build": "npm run build",
-    "build:ci": "node scripts/build-ci.js",
+    "build:ci": "node scripts/build-ci.js"
   },
   "dependencies": {
     "@cloudflare/next-on-pages": "1.12.0",
